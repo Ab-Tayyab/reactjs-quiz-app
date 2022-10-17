@@ -1,0 +1,19 @@
+.timer {
+  height: 50px;
+  background: green;
+  width: 100%;
+  animation: 10s timer infinite linear;
+}
+
+@keyframes timer {
+  100% {
+    width: 0%;
+    background: red;
+  }
+  50% {
+    background: orange;
+  }
+  0% {
+    width: 100%;
+  }
+}
