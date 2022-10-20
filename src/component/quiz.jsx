@@ -1,69 +1,43 @@
 import { Box, Typography, Button, Grid } from "@mui/material";
-import react, { useState } from "react";
-import './quiz.css'
+import { useState, useEffect } from "react";
+import questionData from "./API";
 
-let questionData = [
-    {
-        q: "Shortcut key to double underline the selected text is ------ ?",
-        option: [
-            "Ctrl + Alt + D",
-            "Shift + Alt + U",
-            "Ctrl + Shift + U",
-            "Ctrl + Shift + D",
-        ],
-        ans: 3,
-    },
-    {
-        q: "Shortcut to quit Microsoft Word Powerpoint Access Excel etc is ------------- ?",
-        option: [
-            "Alt + F4",
-            "Ctrl + W",
-            "Alt + W",
-        ],
-        ans: 0,
-    },
-    {
-        q: "On the works cited page list works by each authors last name and--------the title of the work ?",
-        option: [
-            "italicize or underline",
-            "boldface or italicize",
-        ],
-        ans: 0,
-    },
-    {
-        q: "How do you magnify your document in Ms Word?",
-        option: [
-            "View Zoom",
-            "Format Font",
-            "Tools Options",
-            "Tools Customize",
-        ],
-        ans: 0,
-    },
-    {
-        q: "The effect applied to display when slides changes in slide show view is------ ?",
-        option: [
-            "Custom Animation",
-            "Slide Animation",
-            "Slide Transition",
-            "Custom Transition",
-        ],
-        ans: 2,
-    },
-]
 const Quiz = () => {
 
     const [data, setData] = useState(0);
-    const [count, setCount] = useState(1);
+    const [questioncount, setCount] = useState(1);
     const [correctAns, setCorrectAns] = useState(0);
     const [showscore, setShowscore] = useState(false);
-    console.log(correctAns)
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(0);
 
-    const nextQuestion = (event,index) => {
-        let Tcount = count + 1;
-        let nq = data + 1
-        if (nq < questionData.length) {
-            setData(nq)
+    let myInterval;
+    useEffect(() => {
+        myInterval = setInterval(() => {
+            setSeconds(seconds + 1)
+            if (seconds == 59) {
+                setMinutes(minutes + 1)
+                setSeconds(0)
+            }
+            if (minutes == 2 && seconds == 30) {
+                alert("Your time is up: your quize is submitted autometically, press ok to see your result")
+                setShowscore(true)
+            }
+        }, 1000)
+        return () => {
+            clearInterval(myInterval);
+        };
+    });
+
+
+    const nextQuestion = (event, index) => {
+        let Tcount = questioncount + 1;
+        let nextQ = data + 1
+        if (seconds == 10) {
+            setShowscore(true)
+        }
+        if (nextQ < questionData.length) {
+            setData(nextQ)
             setCount(Tcount)
         }
         else {
@@ -75,11 +49,15 @@ const Quiz = () => {
         }
     }
 
+
+    // Rest quize
     const gotohomepage = () => {
         setShowscore(false)
         setData(0);
         setCorrectAns(0)
         setCount(1)
+        setMinutes(0)
+        setSeconds(0)
     }
 
     return (
@@ -92,18 +70,18 @@ const Quiz = () => {
                     position: "absolute",
                     bottom: "50%",
                     right: "40%",
-                    color:"white"
+                    color: "white"
                 }}>
                     <Typography variant="h3"
-                    sx={{
-                        textAlign:"center"
-                    }}>{"Your score is " + correctAns + " out of " + questionData.length}</Typography>
+                        sx={{
+                            textAlign: "center"
+                        }}>{"Your score is " + correctAns + " out of " + questionData.length}</Typography>
                     <Button onClick={gotohomepage} sx={{
-                        color:"white",
-                        background:"green",
-                        mt:"20px",
-                        "&:hover":{
-                            boxShadow:"2px 4px 6px white"
+                        color: "white",
+                        background: "green",
+                        mt: "20px",
+                        "&:hover": {
+                            boxShadow: "2px 4px 6px white"
                         },
                     }}>Do you want to play again</Button>
                 </Box>
@@ -132,7 +110,17 @@ const Quiz = () => {
                                         background: "black"
                                     },
                                 }}>
-                                {count + " OUT OF " + questionData.length}
+                                {minutes < 10 ? "0" + minutes : minutes} :{seconds < 10 ? "0" + seconds : seconds}
+                            </Button>
+                            <Button
+                                sx={{
+                                    color: "red",
+                                    background: "black",
+                                    "&:hover": {
+                                        background: "black"
+                                    },
+                                }}>
+                                {questioncount + " OUT OF " + questionData.length}
                             </Button>
                         </Box>
                         <Typography>{questionData[data].q}</Typography>

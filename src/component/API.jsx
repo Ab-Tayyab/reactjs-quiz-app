@@ -47,3 +47,4 @@ let questionData = [
         ans: 2,
     },
 ]
+export default questionData
