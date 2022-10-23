@@ -1,9 +1,9 @@
-import Viewscore from "./component/Viewscore";
+import Startgame from "./component/Startgame";
 
 function App() {
   return (
     <div className="App">
-      <Viewscore/>
+      <Startgame/>
     </div>
   );
 }

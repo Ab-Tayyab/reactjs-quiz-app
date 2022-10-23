@@ -2,7 +2,7 @@ import { Box, Typography, Button, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import questionData from "./API";
 
-const Quiz = () => {
+const Quiz = ({ show, open }) => {
 
     const [data, setData] = useState(0);
     const [questioncount, setCount] = useState(1);
@@ -60,6 +60,12 @@ const Quiz = () => {
         setSeconds(0)
     }
 
+    // Restart game
+    const Restart = () => {
+        show(false)
+        open(false)
+    }
+
     return (
         <div>
             {showscore ? (
@@ -67,9 +73,7 @@ const Quiz = () => {
                     width: "250px",
                     height: "100px",
                     margin: "auto",
-                    position: "absolute",
-                    bottom: "50%",
-                    right: "40%",
+                    paddingTop: "200px",
                     color: "white"
                 }}>
                     <Typography variant="h3"
@@ -84,6 +88,15 @@ const Quiz = () => {
                             boxShadow: "2px 4px 6px white"
                         },
                     }}>Do you want to play again</Button>
+                    <Button onClick={Restart} sx={{
+                        color: "white",
+                        background: "green",
+                        marginLeft: "70px",
+                        mt: "20px",
+                        "&:hover": {
+                            boxShadow: "2px 4px 6px white"
+                        },
+                    }}>Main Menu</Button>
                 </Box>
             ) : (
 

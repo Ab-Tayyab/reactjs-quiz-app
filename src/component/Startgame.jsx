@@ -20,7 +20,7 @@ const styles = {
     }
 };
 
-const Viewscore = () => {
+const Startgame = () => {
 
     const [show, setShow] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -40,21 +40,19 @@ const Viewscore = () => {
         <div style={styles.paperContainer}>
             {
                 show ? (
-                    <Quiz />
+                    <Quiz show={setShow} open={setOpen} />
                 ) : (
 
                     <Box sx={{
                         width: "200px",
                         margin: "auto",
-                        position: "absolute",
-                        bottom: "50%",
-                        right: "45%"
                     }}>
                         <Button onClick={handleClickOpen}
                             sx={{
                                 background: "white",
                                 color: "black",
                                 width: "200px",
+                                marginTop: "280px",
                                 textAlign: "center",
                                 borderRadius: "0px 20px 0px 20px",
                                 "&:hover": {
@@ -102,4 +100,4 @@ const Viewscore = () => {
         </div>
     )
 }
-export default Viewscore
+export default Startgame
